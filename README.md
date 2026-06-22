@@ -1,39 +1,88 @@
 # Tugas 10 SIG - Spatial AI & Computer Vision Object Detection
 
-Proyek ini merupakan implementasi **GeoAI (Geospatial Artificial Intelligence)** memanfaatkan model arsitektur *Deep Learning* **YOLOv8** dan **OpenCV** untuk mendeteksi entitas fisik (seperti bangunan, jalan, dan objek kendaraan) dari citra foto udara (*Remote Sensing*) secara massal (*Batch Processing*). Koordinat piksel bounding box lokal otomatis dtranslasi menjadi bentuk data spasial koordinat bumi asli (Polygon Bounding Box) berstandar **EPSG:4326** dan diekspor ke dalam format **GeoJSON**.
+Proyek ini merupakan implementasi **GeoAI (Geospatial Artificial Intelligence)** yang memanfaatkan model YOLOv8 dan OpenCV untuk mendeteksi objek fisik dari citra foto udara secara otomatis. Hasil deteksi berupa bounding box pada citra kemudian dikonversi menjadi data spasial berbentuk **GeoJSON** dengan koordinat geografis **EPSG:4326**.
 
-## 👥 Identitas Mahasiswa
-* **Nama:** Gohan Tua Jeremia Ambarita
-* **NIM:** 123140160
-* **Afiliasi:** Teknik Informatika - Institut Teknologi Sumatera (ITERA)
-* **Kelas/Mata Kuliah:** Praktikum Sistem Informasi Geografis (SIG) - Pertemuan 10
+## 👤 Identitas Mahasiswa
+- **Nama**: Gohan Tua Jeremia Ambarita
+- **NIM**: 123140160
+- **Program Studi**: Teknik Informatika
+- **Institusi**: Institut Teknologi Sumatera (ITERA)
+- **Mata Kuliah**: Praktikum Sistem Informasi Geografis (SIG)
 
----
+## 🚀 Tujuan Proyek
+Proyek ini bertujuan untuk:
+- mendeteksi objek pada citra satelit/foto udara,
+- mengubah koordinat piksel menjadi koordinat geografis,
+- mengekspor hasil deteksi ke format GeoJSON,
+- serta memvisualisasikan hasil deteksi agar dapat dibuka di software GIS seperti QGIS.
 
-## 🚀 Fitur Utama Sistem
+## 🧠 Fitur Utama
+1. **Deteksi objek otomatis** menggunakan model YOLOv8 (`yolov8n.pt`).
+2. **Batch processing** untuk beberapa file gambar dalam folder `data`.
+3. **Konversi koordinat piksel ke koordinat geografis** dengan pendekatan interpolasi linear.
+4. **Ekspor hasil ke GeoJSON** untuk penggunaan di GIS.
+5. **Visualisasi hasil deteksi** berupa file gambar `.jpg` pada folder `output`.
 
-1. **Automated Dependency Injection:** Skrip otomatis mendeteksi dan mengunduh berkas bobot model pre-trained `yolov8n.pt` langsung dari server resmi menggunakan library standar Python jika belum tersedia secara lokal.
-2. **High-Sensitivity Satelite Detection:** Optimasi parameter ambang batas keyakinan (`conf=0.15`) dan ukuran pemrosesan internal (`imgsz=640`) untuk mengenali objek-objek kecil khas sudut pandang tegak lurus satelit (*Nadir View*).
-3. **Geo-Calibration / Kelas Koreksi Spasial:** Menyediakan logika otomatis untuk memetakan objek-objek salah klasifikasi akibat sudut pandang udara (seperti atap bundar stadion yang terdeteksi sebagai `clock` atau `umbrella` otomatis diubah menjadi kategori `building`).
-4. **Batch Processing Automation:** Mampu melahap dan mengekstrak banyak gambar sekaligus (`.png`, `.jpg`, `.jpeg`) yang berada di dalam direktori input, memprosesnya secara bergantian, dan memisahkan setiap *output* berkas spasialnya.
-5. **Linear Interpolation Matematika Spasial:** Mengonversi letak piksel grafik $X$ dan $Y$ pada monitor komputer ke derajat koordinat asli lintang (Latitude) dan bujur (Longitude) wilayah **Lampung Selatan**.
+## 📊 Parameter Deteksi
+| Parameter | Nilai | Fungsi |
+|---|---:|---|
+| `imgsz` | 640 | Menentukan ukuran pemrosesan internal model |
+| `conf` | 0.15 | Batas kepercayaan agar objek kecil tetap terdeteksi |
+| `Coordinate System` | EPSG:4326 | Koordinat geografis standar untuk GeoJSON |
+| `Output Format` | GeoJSON | Format data spasial yang dapat dibuka di QGIS |
 
----
+## 📁 Struktur Folder
+- `data/` : berisi citra input yang akan dideteksi
+- `output/` : berisi hasil deteksi berupa GeoJSON dan gambar visualisasi
+- `spatial_ai.py` : script utama untuk deteksi dan eksekusi batch processing
+- `visualisasi.py` : script untuk membuat plot visualisasi tambahan
+- `requirements.txt` : daftar library yang dibutuhkan
 
-## 📂 Struktur Direktori Proyek
+## 🛠️ Cara Instalasi
+1. Pastikan Python sudah terinstal di komputer.
+2. Buka terminal atau PowerShell.
+3. Masuk ke folder proyek:
+   ```bash
+   cd D:\prak_sig\Tugas 10
+   ```
+4. Install dependency:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```text
-tugas10sig_123140160_gohan/
-├── data/
-│   ├── ITERA.png                     # Citra satelit kompleks kampus
-│   ├── lalu lintas.jpeg              # Citra satelit area jalan raya
-│   ├── perkotaan.png                 # Citra satelit area pemukiman padat
-│   └── Stadion.png                   # Citra satelit area megastruktur olahraga
-├── output/
-│   ├── deteksi_ITERA.geojson         # Hasil ekstraksi koordinat spasial ITERA
-│   ├── deteksi_lalu lintas.geojson   # Hasil ekstraksi koordinat spasial jalan raya
-│   ├── hasil_ITERA.jpg               # Gambar visual bboxes hijau objek ITERA
-│   └── hasil_lalu lintas.jpg         # Gambar visual bboxes hijau objek jalan raya
-├── requirements.txt                  # Daftar library (ultralytics, opencv, shapely)
-├── spatial_ai.py                     # Script Python Utama Pemrosesan GeoAI
-└── yolov8n.pt                        # File bobot model deep learning lokal
+## ▶️ Cara Menjalankan
+### 1. Jalankan deteksi objek
+```bash
+python spatial_ai.py
+```
+Script ini akan:
+- mengunduh model `yolov8n.pt` bila belum ada,
+- membaca semua gambar dari folder `data`,
+- melakukan deteksi objek,
+- menyimpan hasil ke folder `output`.
+
+### 2. Jalankan visualisasi tambahan (opsional)
+```bash
+python visualisasi.py
+```
+
+## 📸 Hasil Deteksi
+Berikut adalah hasil yang dihasilkan oleh program pada folder `output`:
+
+| File Input | File Hasil Deteksi | File Visualisasi | Keterangan |
+|---|---|---|---|
+| `data/ITERA.png` | `output/deteksi_ITERA.geojson` | `output/hasil_ITERA.jpg` | Deteksi objek pada area ITERA |
+| `data/manusia.png` | `output/deteksi_manusia.geojson` | `output/hasil_manusia.jpg` | Objek manusia/figur pada citra |
+| `data/mobil.png` | `output/deteksi_mobil.geojson` | `output/hasil_mobil.jpg` | Deteksi kendaraan |
+| `data/pencakar.png` | `output/deteksi_pencakar.geojson` | `output/hasil_pencakar.jpg` | Objek bangunan/struktur tinggi |
+| `data/perkotaan.png` | `output/deteksi_perkotaan.geojson` | `output/hasil_perkotaan.jpg` | Area perkotaan |
+| `data/stadion.png` | `output/deteksi_stadion.geojson` | `output/hasil_stadion.jpg` | Area stadion |
+
+## 📌 Catatan Penting
+- Jika model `yolov8n.pt` belum ada, program akan otomatis mendownloadnya.
+- Hasil deteksi mungkin berbeda tergantung kualitas citra dan parameter `conf` yang digunakan.
+- Untuk pengolahan data yang lebih akurat, disarankan untuk menggunakan citra resolusi tinggi.
+
+## ✅ Kesimpulan
+Proyek ini menunjukkan bahwa model YOLOv8 dapat digunakan untuk deteksi objek pada citra udara, lalu hasilnya dikonversi menjadi data geospasial yang dapat dimanfaatkan untuk analisis GIS maupun pemetaan berbasis objek.
+
