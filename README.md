@@ -78,6 +78,18 @@ Berikut adalah hasil yang dihasilkan oleh program pada folder `output`:
 | `data/perkotaan.png` | `output/deteksi_perkotaan.geojson` | `output/hasil_perkotaan.jpg` | Area perkotaan |
 | `data/stadion.png` | `output/deteksi_stadion.geojson` | `output/hasil_stadion.jpg` | Area stadion |
 
+## 🖼️ Contoh Hasil Visualisasi
+Berikut tampilan visual hasil deteksi yang sudah dihasilkan oleh program:
+
+| Nama File | Preview Hasil |
+|---|---|
+| `output/hasil_ITERA.jpg` | ![Hasil ITERA](output/hasil_ITERA.jpg) |
+| `output/hasil_manusia.jpg` | ![Hasil manusia](output/hasil_manusia.jpg) |
+| `output/hasil_mobil.jpg` | ![Hasil mobil](output/hasil_mobil.jpg) |
+| `output/hasil_pencakar.jpg` | ![Hasil pencakar](output/hasil_pencakar.jpg) |
+| `output/hasil_perkotaan.jpg` | ![Hasil perkotaan](output/hasil_perkotaan.jpg) |
+| `output/hasil_stadion.jpg` | ![Hasil stadion](output/hasil_stadion.jpg) |
+
 ## 📌 Catatan Penting
 - Jika model `yolov8n.pt` belum ada, program akan otomatis mendownloadnya.
 - Hasil deteksi mungkin berbeda tergantung kualitas citra dan parameter `conf` yang digunakan.
