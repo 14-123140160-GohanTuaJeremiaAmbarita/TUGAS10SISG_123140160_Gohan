@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            105.32,
+                            -5.365
+                        ],
+                        [
+                            105.32,
+                            -5.36
+                        ],
+                        [
+                            105.315,
+                            -5.36
+                        ],
+                        [
+                            105.315,
+                            -5.365
+                        ],
+                        [
+                            105.32,
+                            -5.365
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "id_objek": 1,
+                "kategori": "building",
+                "akurasi": 0.85,
+                "file_sumber": "stadion.png"
+            }
+        }
+    ]
+}
